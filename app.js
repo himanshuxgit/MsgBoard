@@ -50,25 +50,8 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/new', (req, res) => {
-  res.rendnst newMessage = {
-    text: messageText,
-    user: messageUser,
-    added: new Date(),
-  };
-
-  try {
-    await messagesCollection.insertOne(newMessage);
-    res.redirect('/');
-  } catch (err) {
-    console.error('Error inserting message:', err);
-    res.status(500).send('Error inserting message');
-  }
+  res.render('new');
 });
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
-
 
 app.post('/new', async (req, res) => {
   const { messageText, messageUser } = req.body;
@@ -90,4 +73,11 @@ app.post('/new', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-module.exports = app; 
+
+module.exports = app;
+
+
+
+
+
+

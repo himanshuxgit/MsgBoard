@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+    title= title
+  body
+    h1= title
+    ul
+      each message in messages
+        li
+          strong= message.user
+          span= message.text
+          span.date= message.added.toLocaleString()
+    a(href='/new') Add a New Message

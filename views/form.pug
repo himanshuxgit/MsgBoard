@@ -1,0 +1,12 @@
+doctype html
+html
+  head
+    title= title
+  body
+    h1= title
+    form(method='POST', action='/new')
+      label(for='messageUser') Author:
+      input(type='text', name='messageUser', id='messageUser')
+      label(for='messageText') Message:
+      input(type='text', name='messageText', id='messageText')
+      button(type='submit') Submit

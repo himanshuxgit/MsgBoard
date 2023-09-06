@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
 const app = express();
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 3000;
 require('dotenv').config();
 
 app.set('view engine', 'pug');

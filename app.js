@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 3000;
 require('dotenv').config();
 
+app.use(express.static('public'));
 app.set('view engine', 'pug');
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -65,6 +67,20 @@ app.post('/new', async (req, res) => {
   } catch (err) {
     console.error('Error inserting message:', err);
     res.status(500).send('Error inserting message');
+  }
+});
+app.delete('/messages/:messageId', async (req, res) => {
+  const messageId = req.params.messageId;
+
+  try {
+    // Use ObjectId constructor with new keyword
+    await messagesCollection.deleteOne({ _id: new ObjectId(messageId) });
+
+    // Send a success response
+    res.sendStatus(204); // Success, no content response
+  } catch (err) {
+    console.error('Error deleting message:', err);
+    res.sendStatus(500); // Internal Server Error
   }
 });
 

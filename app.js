@@ -27,11 +27,20 @@ const messageSchema = new mongoose.Schema({
 
 const Message = mongoose.model('Message', messageSchema);
 
+function formatToLocalTime(date) {
+  return date.toLocaleString(); // This will use the user's local time zone
+}
+
+
 // Route for the message board home page
 app.get('/', async (req, res) => {
   try {
     const messages = await Message.find().exec();
-    res.render('index', { title: 'Mini Messageboard', messages });
+    const formattedMessages = messages.map((message) => ({
+      ...message.toObject(),
+      added: formatToLocalTime(message.added),
+    }));
+    res.render('index', { title: 'Mini Messageboard', messages: formattedMessages });
   } catch (err) {
     console.error('Error fetching messages:', err);
     res.status(500).send('Error fetching messages');

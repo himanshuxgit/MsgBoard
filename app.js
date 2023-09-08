@@ -1,7 +1,8 @@
+// app.js
+
 const express = require('express');
 const bodyParser = require('body-parser');
-const { MongoClient } = require('mongodb');
-const { ObjectId } = require('mongodb');
+const mongoose = require('mongoose');
 const app = express();
 const port = process.env.PORT || 3000;
 require('dotenv').config();
@@ -13,35 +14,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // MongoDB Atlas connection URL loaded from environment variables
 const mongoURL = process.env.MONGODB_URI;
 
-// Create a MongoDB client
-const client = new MongoClient(mongoURL);
+// Connect to MongoDB using Mongoose
+mongoose.connect(mongoURL, { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connection;
 
-// Connect to the MongoDB Atlas cluster
-client.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MongoDB:', err);
-    process.exit(1);
-  }
-  console.log('Connected to MongoDB Atlas');
-});
+// Define a Mongoose schema and model for messages
+const messageSchema = new mongoose.Schema({
+  text: String,
+  user: String,
+  added: Date,
+}, { collection: 'messages'});
 
-// MongoDB collection for messages
-const db = client.db('messageBoard'); // Replace 'messageBoard' with your preferred database name
-const messagesCollection = db.collection('messages');
+const Message = mongoose.model('Message', messageSchema);
 
-// Create an index on the 'added' field (descending order)
-messagesCollection.createIndex({ added: -1 }, (err, result) => {
-  if (err) {
-    console.error('Error creating index:', err);
-  } else {
-    console.log('Index created:', result);
-  }
-});
-
-
+// Route for the message board home page
 app.get('/', async (req, res) => {
   try {
-    const messages = await messagesCollection.find().toArray();
+    const messages = await Message.find().exec();
     res.render('index', { title: 'Mini Messageboard', messages });
   } catch (err) {
     console.error('Error fetching messages:', err);
@@ -49,34 +38,34 @@ app.get('/', async (req, res) => {
   }
 });
 
+// Route for submitting a new message
 app.get('/new', (req, res) => {
   res.render('form', { title: 'New Message' });
 });
 
 app.post('/new', async (req, res) => {
   const { messageText, messageUser } = req.body;
-  const newMessage = {
+  const newMessage = new Message({
     text: messageText,
     user: messageUser,
     added: new Date(),
-  };
+  });
 
   try {
-    await messagesCollection.insertOne(newMessage);
+    await newMessage.save();
     res.redirect('/');
   } catch (err) {
     console.error('Error inserting message:', err);
     res.status(500).send('Error inserting message');
   }
 });
+
+// Route to delete a message
 app.delete('/messages/:messageId', async (req, res) => {
   const messageId = req.params.messageId;
 
   try {
-    // Use ObjectId constructor with new keyword
-    await messagesCollection.deleteOne({ _id: new ObjectId(messageId) });
-
-    // Send a success response
+    await Message.deleteOne({ _id: messageId }).exec();
     res.sendStatus(204); // Success, no content response
   } catch (err) {
     console.error('Error deleting message:', err);
@@ -84,7 +73,9 @@ app.delete('/messages/:messageId', async (req, res) => {
   }
 });
 
+// Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-module.exports = app; 
+
+module.exports = app;

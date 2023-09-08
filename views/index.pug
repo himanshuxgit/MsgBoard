@@ -2,14 +2,19 @@ doctype html
 html
   head
     title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/javascripts/app.js') // Include your JavaScript file
   body
-    h1= title
-    ul
+    h1(style='text-align: center;')= title 
+    a(href='/new') Add a New Message
+    ul(id='message-list') 
       each message in messages
-        li
+        li(class='message-container')
           strong= message.user
-          span= message.text
-          span.date= message.added.toLocaleString()
+          div(class='message-content')
+            span.message-text= message.text
+          div(class='message-date') 
+            span.date= message.added.toLocaleString()
           button(type='button', onclick=`deleteMessage("${message._id}")`) Delete
     // New JavaScript code for message deletion
     script.
@@ -23,7 +28,7 @@ html
           })
             .then((response) => {
               if (response.ok) {
-                window.location.reload(); // Refresh the page after successful deletion
+                window.location.reload(); 
               } else {
                 console.error('Failed to delete message:', response.status);
               }
@@ -33,5 +38,3 @@ html
             });
         }
       }
-    // Add the "Add a New Message" link outside the loop
-    a(href='/new') Add a New Message

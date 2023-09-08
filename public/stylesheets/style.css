@@ -1,8 +1,123 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+/* Reset some default styles */
+body, ul {
+  margin: 0;
+  padding: 0;
 }
 
+/* Body styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+  padding: 20px;
+}
+
+/* Title styles */
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+ul#message-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; 
+}
+
+/* Message container styles */
+.message-container {
+  flex-basis: calc(33.33% - 20px); 
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box; 
+  margin-bottom: 20px;
+  height: 200px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+/* Message text styles */
+.message-text {
+  font-size: 16px;
+  color: #333;
+}
+
+/* Message date styles */
+div.message-date {
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+}
+
+/* Delete button styles */
+button {
+  background-color: #ff5555;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Add New Message link styles */
 a {
+  text-align: center;
+  display: block;
+  margin-top: 20px;
+  text-decoration: none;
   color: #00B7FF;
+  font-weight: bold;
+}
+
+/* Add hover effect to Delete button */
+button:hover {
+  background-color: #ff0000;
+}
+form {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Label styles */
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+/* Input field styles */
+input[type='text'] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  font-size: 16px;
+}
+
+/* Submit button styles */
+button[type='submit'] {
+  background-color: #00B7FF;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 3px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Add hover effect to the submit button */
+button[type='submit']:hover {
+  background-color: #0095d9;
 }

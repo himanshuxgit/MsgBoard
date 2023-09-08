@@ -1,13 +1,13 @@
-// app.js
-
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 const mongoose = require('mongoose');
+const { DateTime} = require('luxon');
 const app = express();
 const port = process.env.PORT || 3000;
 require('dotenv').config();
 
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'pug');
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -22,30 +22,43 @@ const db = mongoose.connection;
 const messageSchema = new mongoose.Schema({
   text: String,
   user: String,
-  added: Date,
-}, { collection: 'messages'});
+  added: {
+    type: Date,
+    default: Date.now,
+  },
+}, { collection: 'messages' });
 
 const Message = mongoose.model('Message', messageSchema);
 
-function formatToLocalTime(date) {
-  return date.toLocaleString(); // This will use the user's local time zone
+function formatToIST(utcDate) {
+  try {
+    const istTime = DateTime.fromJSDate(utcDate).setZone('Asia/Kolkata'); // IST time zone
+    
+    // Format the local time as desired (e.g., 'yyyy-MM-dd HH:mm:ss')
+    return istTime.toFormat('yyyy-MM-dd HH:mm:ss');
+  } catch (error) {
+    console.error('Error formatting to IST:', error);
+    return null;
+  }
 }
-
 
 // Route for the message board home page
 app.get('/', async (req, res) => {
   try {
     const messages = await Message.find().exec();
+    
     const formattedMessages = messages.map((message) => ({
       ...message.toObject(),
-      added: formatToLocalTime(message.added),
+      added: formatToIST(message.added),
     }));
+    
     res.render('index', { title: 'Mini Messageboard', messages: formattedMessages });
   } catch (err) {
     console.error('Error fetching messages:', err);
     res.status(500).send('Error fetching messages');
   }
 });
+
 
 // Route for submitting a new message
 app.get('/new', (req, res) => {

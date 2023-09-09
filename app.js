@@ -116,7 +116,7 @@ app.get('/messages', isAuthenticated, async (req, res) => {
 
 
 // Route for submitting a new message
-app.post('/messages/new', isAuthenticated, async (req, res) => {
+app.post('/new', isAuthenticated, async (req, res) => {
   try {
     const { messageText, messageUser } = req.body;
 
@@ -133,17 +133,18 @@ app.post('/messages/new', isAuthenticated, async (req, res) => {
     res.status(500).send('Error inserting message');
   }
 });
-app.get('/messages/new', isAuthenticated, (req, res) => {
-  res.render('form', { title: 'New Message' });
+// Route for rendering the /new page
+app.get('/new', isAuthenticated, (req, res) => {
+  res.render('form', { title: 'New Message', user: req.user }); // Pass the user variable
 });
-// Middleware function to check if the user is authenticated
+
 function isAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
-    return next(); // User is authenticated, proceed to the next middleware (fetching and rendering messages)
+    return next(); 
   }
-  // User is not authenticated, redirect to the login page
-  res.redirect('/auth/google');
+  res.redirect('/auth/google'); // You can customize the redirection URL
 }
+
 
 
 // Route to delete a message

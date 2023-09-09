@@ -21,7 +21,7 @@
   "keywords": [],
   "author": "",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js"
   },
   "license": "ISC",
   "description": ""

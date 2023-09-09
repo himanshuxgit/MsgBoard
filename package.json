@@ -20,6 +20,9 @@
   "main": "app.js",
   "keywords": [],
   "author": "",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
   "license": "ISC",
   "description": ""
 }

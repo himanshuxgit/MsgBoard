@@ -142,10 +142,17 @@ function isAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
     return next(); 
   }
-  res.redirect('/auth/google'); // You can customize the redirection URL
+  res.redirect('/'); // You can customize the redirection URL
 }
 
-
+app.get('/logout', (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      console.error('Error logging out:', err);
+    }
+    res.redirect('/'); // Redirect the user to the home page or another suitable page
+  });
+});
 
 // Route to delete a message
 app.delete('/messages/:messageId', async (req, res) => {

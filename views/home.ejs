@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,8 +8,15 @@
 </head>
 <body>
     <h1>Welcome to MessageBoard</h1>
-    <p>Please log in with Google:</p>
-    <br>
-    <a href="/auth/google">Login with Google</a>
+    <% if (user && user.displayName) { %>
+        <p>Welcome, <%= user.displayName %>!</p>
+        <a href="/messages">Go to Message Board</a>
+        <a href="/logout" id="logout-button">Logout</a>
+
+    <% } else { %>
+        <p>Please log in with Google:</p>
+        <br>
+        <a href="/auth/google">Login with Google</a>
+    <% } %>
 </body>
 </html>

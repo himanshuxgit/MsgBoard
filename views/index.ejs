@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
     <link rel="stylesheet" href="/stylesheets/style.css">
     <script src="/javascripts/view.js"></script>
-  </head>
-  <body>
+</head>
+<body>
     <h1 style="text-align: center;"><%= title %></h1>
     <a href="/new">Add a New Message</a>
     <ul id="message-list">
-      <% messages.forEach((message) => { %>
-        <li class="message-container">
-          <strong><%= message.user %></strong>
-          <div class="message-content">
-            <span class="message-text"><%= message.text %></span>
-          </div>
-          <div class="message-date">
-            <span class="date"><%= message.added.toLocaleString() %></span>
-          </div>
-          <button type="button" onclick="deleteMessage('<%= message._id %>')">Delete</button>
-        </li>
-      <% }); %>
+        <% messages.forEach((message) => { %>
+            <li class="message-container">
+                <strong><%= message.user %></strong>
+                <div class="message-content">
+                    <span class="message-text"><%= message.text %></span>
+                </div>
+                <div class="message-date">
+                    <span class="date"><%= message.added.toLocaleString() %></span>
+                </div>
+                <button type="button" onclick="deleteMessage('<%= message._id %>')">Delete</button>
+            </li>
+        <% }); %>
     </ul>
-
-  </body>
+    <a href="/logout" id="logout-button">Logout</a>
+</body>
 </html>

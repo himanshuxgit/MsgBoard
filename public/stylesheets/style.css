@@ -28,18 +28,18 @@ ul#message-list {
 
 /* Message container styles */
 .message-container {
-  flex-basis: calc(33.33% - 20px); 
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 5px;
-  padding: 20px;
+  padding: 10px; /* Reduce padding */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box; 
+  box-sizing: border-box;
   margin-bottom: 20px;
-  height: 200px; 
+  height: auto; /* Adjust height to auto */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex-basis: calc(20% - 20px); 
 }
 /* Message text styles */
 .message-text {
